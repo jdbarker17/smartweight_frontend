@@ -1,6 +1,6 @@
 'use client';
 
-import AccelerometerVisualization from '@/components/AccelerometerVisualization';
+import AccelerometerVisualization from '@/components/ui/sensors/AccelerometerVisualization';
 import Image from "next/image";
 import Link from 'next/link';
 
