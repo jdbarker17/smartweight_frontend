@@ -1,6 +1,7 @@
 // Sidebar.tsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import AlkeLogo from '../dashboard/logo-color';
 
 interface SidebarProps {
     onWorkoutSelect: (workoutId: string) => void;
@@ -55,17 +56,28 @@ const Sidebar: React.FC<SidebarProps> = ({ onWorkoutSelect }) => {
     };
 
     return (
-        <div className="w-64 p-4 border-r">
-            <h2 className="text-xl font-bold mb-4">Devices</h2>
+        <div className="w-64 p-4 border-r bg-[#F4F4F9] rounded">
+            {/*
+            <div className="shrink w-64 h-14"><AlkeLogo /></div>
+            */}
+
+            <div className="flex justify-center mb-4">
+                <div className="w-16 h-16">
+                    <AlkeLogo className="w-full h-full" />
+                </div>
+            </div>
+            
+
+            <h2 className="text-xl  font-bold mb-4">Devices</h2>
             <ul className="space-y-2">
                 {deviceIds.length > 0 ? (
                     deviceIds.map((device) => (
                         <li key={device.id}>
                             <button 
                                 onClick={() => fetchWorkouts(device.id)}
-                                className={`w-full text-left p-2 rounded ${
+                                className={`w-full text-left p-2 rounded text-[#586F7C] ${
                                     selectedDevice === device.id 
-                                        ? 'bg-blue-100 text-blue-700' 
+                                        ? 'bg-[#B8DBD9] text-[#04724D]' 
                                         : 'hover:bg-gray-100'
                                 }`}
                             >
@@ -87,9 +99,9 @@ const Sidebar: React.FC<SidebarProps> = ({ onWorkoutSelect }) => {
                                 <li key={workout.id}>
                                     <button 
                                         onClick={() => handleWorkoutClick(workout.id)}
-                                        className={`w-full text-left p-2 rounded ${
+                                        className={`w-full text-left p-2 rounded text-[#586F7C] ${
                                             selectedWorkoutId === workout.id 
-                                                ? 'bg-blue-100 text-blue-700' 
+                                                ? 'bg-[#B8DBD9] text-[#04724D]' 
                                                 : 'hover:bg-gray-100'
                                         }`}
                                     >

@@ -7,6 +7,19 @@ interface AccelerometerChartProps {
     workoutId: string;
 }
 
+function applyLowPassFilter(data: number[], alpha: number = 0.9): number[] {
+    if (!data.length) return [];
+  
+    const filtered: number[] = [];
+    filtered[0] = data[0]; // Initialize first element
+  
+    for (let i = 1; i < data.length; i++) {
+      filtered[i] = alpha * filtered[i - 1] + (1 - alpha) * data[i];
+    }
+  
+    return filtered;
+  }
+
 const AccelerometerChart: React.FC<AccelerometerChartProps> = ({ workoutId }) => {
     const [error, setError] = useState<string | null>(null);
 
@@ -43,24 +56,34 @@ const AccelerometerChart: React.FC<AccelerometerChartProps> = ({ workoutId }) =>
 
                 const accX = data.flatMap((row: any) => 
                     row.acc_x.map((value: any) => {
-                        const parsedValue = parseFloat(value);
+                        const parsedValue = parseFloat(value) * -1;
                         return isNaN(parsedValue) ? 0 : parsedValue;
                     })
                 );
 
                 const accY = data.flatMap((row: any) => 
                     row.acc_y.map((value: any) => {
-                        const parsedValue = parseFloat(value);
+                        const parsedValue = parseFloat(value) * -1;
                         return isNaN(parsedValue) ? 0 : parsedValue;
                     })
                 );
 
                 const accZ = data.flatMap((row: any) => 
                     row.acc_z.map((value: any) => {
-                        const parsedValue = parseFloat(value);
+                        const parsedValue = parseFloat(value) * -1;
                         return isNaN(parsedValue) ? 0 : parsedValue;
                     })
                 );
+
+                // Apply low-pass filter to each axis
+                //const alpha = 0.85; // Adjust to taste
+                const alpha = 0.5; // Adjust to taste
+                const accX_filt = applyLowPassFilter(accX, alpha);
+                const accY_filt = applyLowPassFilter(accY, alpha);
+                const accZ_filt = applyLowPassFilter(accZ, alpha);
+
+
+
 
                 const chartOption = {
                     title: {
@@ -92,19 +115,19 @@ const AccelerometerChart: React.FC<AccelerometerChartProps> = ({ workoutId }) =>
                         {
                             name: 'Acc X',
                             type: 'line',
-                            data: accX,
+                            data: accX_filt,
                             sampling: 'lttb'
                         },
                         {
                             name: 'Acc Y',
                             type: 'line',
-                            data: accY,
+                            data: accY_filt,
                             sampling: 'lttb'
                         },
                         {
                             name: 'Acc Z',
                             type: 'line',
-                            data: accZ,
+                            data: accZ_filt,
                             sampling: 'lttb'
                         }
                     ],

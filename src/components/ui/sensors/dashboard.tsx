@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import Sidebar from './sidebar';
 import AccelerometerChart from './AccelerometerVisualization2';
+import AlkeLogo from '../dashboard/logo-color';
 
 const Dashboard: React.FC = () => {
     const [selectedWorkout, setSelectedWorkout] = useState<string | null>(null);
