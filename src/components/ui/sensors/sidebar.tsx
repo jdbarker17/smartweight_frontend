@@ -62,7 +62,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onWorkoutSelect }) => {
             */}
 
             <div className="flex justify-center mb-4">
-                <div className="w-16 h-16">
+                <div className="w-64 h-16">
                     <AlkeLogo className="w-full h-full" />
                 </div>
             </div>
