@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import * as echarts from 'echarts';
 
-interface AccelerometerChartProps {
+interface GyroChartProps {
     workoutId: string;
 }
 
@@ -20,13 +20,13 @@ function applyLowPassFilter(data: number[], alpha: number = 0.9): number[] {
     return filtered;
   }
 
-const AccelerometerChart: React.FC<AccelerometerChartProps> = ({ workoutId }) => {
+const GyroChart: React.FC<GyroChartProps> = ({ workoutId }) => {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         if (!workoutId) return; // Don't fetch if no workout is selected
 
-        const chartDom = document.getElementById('chart-container-accel');
+        const chartDom = document.getElementById('chart-container-gyro');
         if (!chartDom) {
             console.error('Chart container not found');
             return;
@@ -54,22 +54,22 @@ const AccelerometerChart: React.FC<AccelerometerChartProps> = ({ workoutId }) =>
                     );
                 });
 
-                const accX = data.flatMap((row: any) => 
-                    row.acc_x.map((value: any) => {
+                const gyrX = data.flatMap((row: any) => 
+                    row.gyr_x.map((value: any) => {
                         const parsedValue = parseFloat(value) * -1;
                         return isNaN(parsedValue) ? 0 : parsedValue;
                     })
                 );
 
-                const accY = data.flatMap((row: any) => 
-                    row.acc_y.map((value: any) => {
+                const gyrY = data.flatMap((row: any) => 
+                    row.gyr_y.map((value: any) => {
                         const parsedValue = parseFloat(value) * -1;
                         return isNaN(parsedValue) ? 0 : parsedValue;
                     })
                 );
 
-                const accZ = data.flatMap((row: any) => 
-                    row.acc_z.map((value: any) => {
+                const gyrZ = data.flatMap((row: any) => 
+                    row.gyr_z.map((value: any) => {
                         const parsedValue = parseFloat(value) * -1;
                         return isNaN(parsedValue) ? 0 : parsedValue;
                     })
@@ -77,20 +77,20 @@ const AccelerometerChart: React.FC<AccelerometerChartProps> = ({ workoutId }) =>
 
                 // Apply low-pass filter to each axis
                 //const alpha = 0.85; // Adjust to taste
-                const alpha = 0.2; // Adjust to taste
-                const accX_filt = applyLowPassFilter(accX, alpha);
-                const accY_filt = applyLowPassFilter(accY, alpha);
-                const accZ_filt = applyLowPassFilter(accZ, alpha);
+                const alpha = 0.6; // Adjust to taste
+                const gyrX_filt = applyLowPassFilter(gyrX, alpha);
+                const gyrY_filt = applyLowPassFilter(gyrY, alpha);
+                const gyrZ_filt = applyLowPassFilter(gyrZ, alpha);
 
 
 
 
                 const chartOption = {
                     title: {
-                        text: `Workout ${workoutId} Accelerometer Data`,
+                        text: `Workout ${workoutId} Gyroscope Data`,
                     },
                     legend: {
-                        data: ['Acc X', 'Acc Y', 'Acc Z']
+                        data: ['Gyr X', 'Gyr Y', 'Gyr Z']
                     },
                     tooltip: {
                         trigger: 'axis',
@@ -109,25 +109,25 @@ const AccelerometerChart: React.FC<AccelerometerChartProps> = ({ workoutId }) =>
                     },
                     yAxis: {
                         type: 'value',
-                        name: 'Acceleration (g)',
+                        name: 'Gyro (g)',
                     },
                     series: [
                         {
-                            name: 'Acc X',
+                            name: 'Gyr X',
                             type: 'line',
-                            data: accX_filt,
+                            data: gyrX_filt,
                             sampling: 'lttb'
                         },
                         {
-                            name: 'Acc Y',
+                            name: 'Gyr Y',
                             type: 'line',
-                            data: accY_filt,
+                            data: gyrY_filt,
                             sampling: 'lttb'
                         },
                         {
-                            name: 'Acc Z',
+                            name: 'Gyr Z',
                             type: 'line',
-                            data: accZ_filt,
+                            data: gyrZ_filt,
                             sampling: 'lttb'
                         }
                     ],
@@ -168,9 +168,9 @@ const AccelerometerChart: React.FC<AccelerometerChartProps> = ({ workoutId }) =>
 
     return (
         <div className="p-4">
-            <div id="chart-container-accel" style={{ width: '100%', height: '500px' }} />
+            <div id="chart-container-gyro" style={{ width: '100%', height: '500px' }} />
         </div>
     );
 };
 
-export default AccelerometerChart;
+export default GyroChart;

@@ -3,6 +3,14 @@
 import React, { useEffect, useState } from 'react';
 import * as echarts from 'echarts';
 
+/*interface AccelerometerChartProps {
+  workoutId: string;
+}
+  
+const AccelerometerChart: React.FC<AccelerometerChartProps> = ({workout_id}) => {
+*/
+
+
 const AccelerometerChart: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 

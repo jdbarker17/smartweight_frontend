@@ -48,6 +48,7 @@ const Sidebar: React.FC = () => {
     const fetchWorkouts = async (deviceId: string) => {
         try {
             const response = await axios.get<Workout[]>(`http://localhost:8000/api/devices/${deviceId}/workouts/`);
+            // Set the Active Worku
             setWorkouts(response.data);
             setSelectedDevice(deviceId); // Update the selected device
         } catch (error) {

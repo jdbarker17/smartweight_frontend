@@ -6,10 +6,21 @@ import AlkeLogo from '../dashboard/logo-color';
 interface SidebarProps {
     onWorkoutSelect: (workoutId: string) => void;
 }
+/*
+for (let i =0; i < deviceIds.length; i++){
+    if (deviceIds[i].id == "180668370574044"){
+        deviceIds[i].name = "Jon";
+        setDeviceNames(deviceIds[i]);
+        
+    } 
+    if (deviceIds[i].id == "277272330063220"){
+        deviceIds[i].name = "Stephen";
+    } 
+} */
 
 interface Device {
     id: string;
-    name: string;
+    user_id: string;
 }
 
 interface Workout {
@@ -19,8 +30,13 @@ interface Workout {
     created_at: string;
 }
 
+interface DeviceMap {
+    
+}
+
 const Sidebar: React.FC<SidebarProps> = ({ onWorkoutSelect }) => {
     const [deviceIds, setDeviceIds] = useState<Device[]>([]);
+    const [deviceNames, setDeviceNames] = useState<Device[]>([]);
     const [workouts, setWorkouts] = useState<Workout[]>([]);
     const [selectedDevice, setSelectedDevice] = useState<string | null>(null);
     const [selectedWorkoutId, setSelectedWorkoutId] = useState<string | null>(null);
@@ -29,13 +45,19 @@ const Sidebar: React.FC<SidebarProps> = ({ onWorkoutSelect }) => {
         const fetchDeviceIds = async () => {
             try {
                 const response = await axios.get<Device[]>('http://localhost:8000/api/device-ids/');
+                //response.data
                 setDeviceIds(response.data);
+                console.log(response.data);
+
             } catch (error) {
                 console.error("Error fetching device IDs:", error);
             }
         };
+       
 
-        fetchDeviceIds();
+        fetchDeviceIds(); 
+
+        
     }, []);
 
     const fetchWorkouts = async (deviceId: string) => {
@@ -62,9 +84,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onWorkoutSelect }) => {
             */}
 
             <div className="flex justify-center mb-4">
-                <div className="w-64 h-16">
-                    <AlkeLogo className="w-full h-full" />
-                </div>
+                    <AlkeLogo className="w-full h-full border-0" />
             </div>
             
 
@@ -72,16 +92,19 @@ const Sidebar: React.FC<SidebarProps> = ({ onWorkoutSelect }) => {
             <ul className="space-y-2">
                 {deviceIds.length > 0 ? (
                     deviceIds.map((device) => (
+                        
                         <li key={device.id}>
                             <button 
                                 onClick={() => fetchWorkouts(device.id)}
+                                
                                 className={`w-full text-left p-2 rounded text-[#586F7C] ${
+                                    
                                     selectedDevice === device.id 
                                         ? 'bg-[#B8DBD9] text-[#04724D]' 
                                         : 'hover:bg-gray-100'
                                 }`}
-                            >
-                                {device.id}
+                            >   
+                                {device.user_id}
                             </button>
                         </li>
                     ))

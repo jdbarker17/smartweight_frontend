@@ -10,7 +10,7 @@ const AlkeLogo: React.FC<AlkeLogoProps> = (props) => {
       xmlnsXlink="http://www.w3.org/1999/xlink"
       width="1500"
       height="1500"
-      viewBox="0 0 1500 1500"
+      viewBox="0 0 1500 1000"
       {...props} // Spread any additional props (e.g., className, onClick, etc.)
     >
       <rect
