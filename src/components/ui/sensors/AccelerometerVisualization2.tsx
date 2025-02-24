@@ -36,7 +36,7 @@ const AccelerometerChart: React.FC<AccelerometerChartProps> = ({ workoutId }) =>
 
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/api/workouts/${workoutId}/sensor_readings/?page=1&page_size=100`);
+                const response = await fetch(`http://localhost:8000/api/workouts/${workoutId}/sensor_readings/`);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
