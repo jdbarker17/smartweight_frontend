@@ -49,7 +49,9 @@ const GyroChart: React.FC<GyroChartProps> = ({ workoutId }) => {
 
                 const timestamps = data.flatMap((row: any) => {
                     const startTimestamp = new Date(row.timestamp).getTime();
-                    return Array.from({ length: 10 }, (_, i) => 
+                    // Get number of points from the amount of points in gyr_x
+                    const numPoints = row.gyr_x.length
+                    return Array.from({ length: numPoints }, (_, i) => 
                         new Date(startTimestamp + i * intervalPerPoint).toISOString()
                     );
                 });

@@ -44,12 +44,16 @@ const AccelerometerChart: React.FC<AccelerometerChartProps> = ({ workoutId }) =>
                 
                 const result = await response.json();
                 const data = result.results;
+                console.log(`Values of the response are ${JSON.stringify(Object.values(data), null, 2)}`);
 
                 const intervalPerPoint = 100;
 
                 const timestamps = data.flatMap((row: any) => {
                     const startTimestamp = new Date(row.timestamp).getTime();
-                    return Array.from({ length: 10 }, (_, i) => 
+                    //console.log(row.values);
+                    // Get number of points from the amount of points in accX
+                    const numPoints = row.acc_x.length;
+                    return Array.from({ length: numPoints }, (_, i) => 
                         new Date(startTimestamp + i * intervalPerPoint).toISOString()
                     );
                 });
